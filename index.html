@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +7,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
+<!-- ═══ LUCIDE ICONS ═══ -->
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+<!-- ═══ SIDEBAR STYLES ═══ -->
+<link rel="stylesheet" href="sidebar.css">
+
 <style>
+  /* ─── ALL YOUR EXISTING STYLES HERE (without sidebar styles) ─── */
   :root{
     --bg-0:#0a0d12;
     --panel: rgba(20,26,34,0.55);
@@ -32,7 +39,7 @@
     --radius-sm:10px;
     --font-display:'Space Grotesk', sans-serif;
     --font-mono:'IBM Plex Mono', monospace;
-    --sidebar-w: 220px;
+    --sidebar-w: 240px;
   }
 
   /* ── LIGHT THEME ── */
@@ -60,6 +67,21 @@
   @keyframes dotPulse {
     0%, 100% { opacity: 0.3; transform: scale(1); }
     50% { opacity: 0.8; transform: scale(1.5); }
+  }
+
+  .map-wrapper {
+    margin: 12px;
+    border: 1px solid var(--panel-border-strong);
+    border-radius: 12px;
+    overflow: hidden;
+    height: calc(100% - 24px);
+    background: var(--bg-0);
+    transition: background 0.3s ease;
+  }
+
+  [data-theme="light"] .map-wrapper {
+    background: #ffffff;
+    border-color: rgba(0,0,0,0.1);
   }
 
   .grid-bg {
@@ -116,46 +138,6 @@
     background-position: center;
     background-attachment: fixed;
     background-repeat: no-repeat;
-  }
-
-  [data-theme="light"] .sidebar {
-    background: rgba(255,255,255,0.82);
-    border-right: 1px solid rgba(0,0,0,0.06);
-    backdrop-filter: blur(20px);
-  }
-
-  [data-theme="light"] .sb-brand { border-color: rgba(0,0,0,0.06); }
-  [data-theme="light"] .sb-name { color: #0f172a; }
-  [data-theme="light"] .sb-name span { color: #0891b2; }
-  [data-theme="light"] .sb-sub { color: #94a3b8; }
-  [data-theme="light"] .sb-mark {
-    background: linear-gradient(135deg, #0891b2, #0d9488);
-    box-shadow: 0 0 18px rgba(8,145,178,0.3);
-  }
-  [data-theme="light"] .sb-item { color: #475569; }
-  [data-theme="light"] .sb-item:hover {
-    background: rgba(0,0,0,0.04);
-    color: #0f172a;
-    border-color: rgba(0,0,0,0.06);
-  }
-  [data-theme="light"] .sb-item.active {
-    background: rgba(8,145,178,0.08);
-    color: #0891b2;
-    border-color: rgba(8,145,178,0.2);
-  }
-  [data-theme="light"] .sb-item.active .sb-icon { background: rgba(8,145,178,0.12); }
-  [data-theme="light"] .sb-item .sb-icon { background: rgba(0,0,0,0.03); }
-  [data-theme="light"] .sb-section-lbl { color: #94a3b8; }
-  [data-theme="light"] .sb-foot { border-color: rgba(0,0,0,0.06); }
-  [data-theme="light"] .sb-live {
-    background: rgba(8,145,178,0.06);
-    border-color: rgba(8,145,178,0.12);
-  }
-  [data-theme="light"] .sb-live-txt { color: #0891b2; }
-  [data-theme="light"] .sb-live-sub { color: #94a3b8; }
-  [data-theme="light"] .sb-live-dot {
-    background: #0891b2;
-    box-shadow: 0 0 8px rgba(8,145,178,0.4);
   }
 
   [data-theme="light"] .topbar {
@@ -241,29 +223,6 @@
   [data-theme="light"] .alert-item .alert-tag.warning { background: #f59e0b; color: #fff; }
   [data-theme="light"] .alert-item .alert-tag.info { background: #0891b2; color: #fff; }
 
-  [data-theme="light"] .route-map { border-color: rgba(0,0,0,0.06); }
-  [data-theme="light"] .route-map .map-filter select {
-    background: rgba(255,255,255,0.90);
-    color: #0f172a;
-    border-color: rgba(0,0,0,0.08);
-  }
-  [data-theme="light"] .route-info {
-    background: rgba(0,0,0,0.02);
-    border-color: rgba(0,0,0,0.06);
-  }
-  [data-theme="light"] .route-time { color: #0f172a; }
-  [data-theme="light"] .route-time span { color: #94a3b8; }
-  [data-theme="light"] .route-dist { color: #94a3b8; }
-  [data-theme="light"] .route-dest {
-    border-color: rgba(0,0,0,0.06);
-    color: #64748b;
-  }
-  [data-theme="light"] .route-dest .x { color: #94a3b8; }
-  [data-theme="light"] .route-car {
-    background: linear-gradient(135deg, #0891b2, #0d9488);
-    box-shadow: 0 0 12px rgba(8,145,178,0.3);
-  }
-
   [data-theme="light"] .map-panel {
     background:
       radial-gradient(circle at 30% 30%, rgba(8,145,178,0.04), transparent 50%),
@@ -277,21 +236,6 @@
       linear-gradient(90deg, rgba(8,145,178,0.03) 1px, transparent 1px);
   }
   [data-theme="light"] .map-corner-label { color: #94a3b8; }
-
-  [data-theme="light"] .floating-note {
-    background: rgba(255,255,255,0.92);
-    border-color: rgba(0,0,0,0.08);
-    backdrop-filter: blur(20px);
-    box-shadow: 0 16px 40px rgba(0,0,0,0.08);
-  }
-  [data-theme="light"] .floating-note .dt-header { color: #0891b2; }
-  [data-theme="light"] .floating-note .dt-grid .dt-item .dt-label { color: #94a3b8; }
-  [data-theme="light"] .floating-note .dt-grid .dt-item .dt-value { color: #0f172a; }
-  [data-theme="light"] .floating-note .dt-prediction {
-    background: rgba(8,145,178,0.06);
-    border-color: rgba(8,145,178,0.12);
-  }
-  [data-theme="light"] .floating-note .dt-footer .dt-update { color: #94a3b8; }
 
   [data-theme="light"] .kpi {
     background: rgba(255,255,255,0.40);
@@ -307,14 +251,6 @@
   }
   [data-theme="light"] .kpi .spark polyline { stroke: #0891b2; }
   [data-theme="light"] .kpi .bars div { background: #0891b2; }
-
-  [data-theme="light"] .filter-chip {
-    background: rgba(255,255,255,0.6);
-    border-color: rgba(0,0,0,0.06);
-  }
-  [data-theme="light"] .filter-chip .lbl { color: #94a3b8; }
-  [data-theme="light"] .filter-chip .val { color: #0f172a; }
-  [data-theme="light"] .filter-chip .chev { color: #94a3b8; }
 
   [data-theme="light"] .leaflet-control-zoom a {
     background: rgba(255,255,255,0.80);
@@ -361,105 +297,6 @@
     position:relative;
     z-index:1;
   }
-
-  /* ══════════════════════════════
-    SIDEBAR
-  ══════════════════════════════ */
-  .sidebar{
-    width: var(--sidebar-w);
-    flex-shrink:0;
-    height:100%;
-    background: rgba(8,12,18,0.72);
-    border-right:1px solid var(--panel-border);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    display:flex;
-    flex-direction:column;
-    overflow:hidden;
-    position:relative;
-    z-index:10;
-  }
-
-  .sb-brand{
-    display:flex; align-items:center; gap:10px;
-    padding:18px 16px 16px;
-    border-bottom:1px solid var(--panel-border);
-    flex-shrink:0;
-  }
-  .sb-mark{
-    width:32px; height:32px; border-radius:9px;
-    background:linear-gradient(135deg,var(--cyan),#0891b2);
-    display:flex; align-items:center; justify-content:center;
-    box-shadow:0 0 18px var(--cyan-glow);
-    position:relative; flex-shrink:0;
-  }
-  .sb-mark::before{
-    content:""; position:absolute;
-    width:7px; height:7px;
-    border:2px solid rgba(0,0,0,0.6); border-radius:2px;
-    left:7px; top:10px;
-  }
-  .sb-mark::after{
-    content:""; position:absolute;
-    width:7px; height:7px;
-    border:2px solid rgba(0,0,0,0.6); border-radius:2px;
-    right:7px; top:10px;
-  }
-  .sb-name{ font-size:14px; font-weight:700; line-height:1.2; }
-  .sb-name span{ color:var(--cyan); }
-  .sb-sub{ font-family:var(--font-mono); font-size:8.5px; color:var(--text-low); letter-spacing:1.2px; text-transform:uppercase; margin-top:1px; }
-
-  .sb-nav{ flex:1; padding:12px 10px; display:flex; flex-direction:column; gap:2px; overflow-y:auto; }
-  .sb-section-lbl{
-    font-family:var(--font-mono); font-size:8.5px; color:var(--text-low);
-    text-transform:uppercase; letter-spacing:1.2px;
-    padding:10px 8px 4px; margin-top:4px;
-  }
-  .sb-item{
-    display:flex; align-items:center; gap:10px;
-    padding:9px 10px; border-radius:10px;
-    font-size:12.5px; font-weight:500; color:var(--text-mid);
-    cursor:pointer; transition:all .15s ease;
-    border:1px solid transparent;
-    text-decoration:none;
-  }
-  .sb-item:hover{
-    background:rgba(255,255,255,0.05);
-    color:var(--text-hi);
-    border-color:var(--panel-border);
-  }
-  .sb-item.active{
-    background:var(--cyan-dim);
-    color:var(--cyan);
-    border-color:rgba(6,182,212,0.25);
-  }
-  .sb-icon{
-    width:32px; height:32px; border-radius:8px;
-    display:flex; align-items:center; justify-content:center;
-    background:rgba(255,255,255,0.04);
-    font-size:14px; flex-shrink:0;
-  }
-  .sb-item.active .sb-icon{ background:rgba(6,182,212,0.15); }
-
-  .sb-foot{
-    padding:12px 10px;
-    border-top:1px solid var(--panel-border);
-    flex-shrink:0;
-  }
-  .sb-live{
-    display:flex; align-items:center; gap:8px;
-    padding:9px 10px; border-radius:10px;
-    background:rgba(6,182,212,0.06);
-    border:1px solid rgba(6,182,212,0.15);
-  }
-  .sb-live-dot{
-    width:7px; height:7px; border-radius:50%;
-    background:var(--cyan); box-shadow:0 0 8px var(--cyan);
-    animation:pulse 1.8s ease-in-out infinite; flex-shrink:0;
-  }
-  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.3;} }
-  .sb-live-txt{ font-family:var(--font-mono); font-size:9.5px; color:var(--cyan); font-weight:600; letter-spacing:.5px; }
-  .sb-live-sub{ font-family:var(--font-mono); font-size:8px; color:var(--text-low); margin-top:1px; }
 
   /* ══════════════════════════════
     MAIN AREA
@@ -726,7 +563,7 @@
   .map-panel .map-toolbar .tool-btn{
     width:32px; height:32px; border-radius:8px;
     display:flex; align-items:center; justify-content:center;
-    background:rgba(15,20,27,0.7);
+    background:var(--panel);
     border:1px solid var(--panel-border);
     color:var(--text-mid);
     cursor:pointer; transition:all .15s ease;
@@ -738,20 +575,35 @@
     color:var(--text-hi);
     border-color:var(--panel-border-strong);
   }
+  [data-theme="light"] .map-panel .map-toolbar .tool-btn{
+    background:rgba(255,255,255,0.88);
+    border-color:rgba(0,0,0,0.08);
+    color:var(--text-mid);
+  }
+  [data-theme="light"] .map-panel .map-toolbar .tool-btn:hover{
+    background:#ffffff;
+    color:var(--text-hi);
+    border-color:rgba(8,145,178,0.25);
+  }
 
-  .map-panel .map-legend{
+  .map-panel .map-legend {
     position:absolute; bottom:20px; right:20px; z-index:5;
-    background:rgba(8,12,18,0.7);
+    background:var(--panel);
     border:1px solid var(--panel-border);
     border-radius:8px;
     padding:8px 12px;
     backdrop-filter:blur(8px);
     display:flex; flex-direction:column; gap:3px;
   }
+  [data-theme="light"] .map-panel .map-legend{
+    background:rgba(255,255,255,0.88);
+    border-color:rgba(0,0,0,0.08);
+  }
   .map-panel .map-legend .legend-item{
     display:flex; align-items:center; gap:6px;
     font-size:9px; color:var(--text-mid);
     font-family:var(--font-mono);
+    font-weight:500;
   }
   .map-panel .map-legend .legend-item .dot{
     width:8px; height:8px; border-radius:50%;
@@ -769,6 +621,39 @@
     font-family:var(--font-mono); font-size:8px; color:var(--text-low);
     font-weight:400; display:block; margin-top:2px;
     letter-spacing:0.3px;
+  }
+
+  /* ── MAP FILTERS (Asset Type / Status) ── */
+  .map-panel .map-filters{
+    position:absolute; top:20px; right:20px; z-index:5;
+    display:flex; gap:6px;
+  }
+  .map-panel .map-filters select{
+    appearance:none;
+    -webkit-appearance:none;
+    background:rgba(15,20,27,0.75);
+    border:1px solid var(--panel-border);
+    color:var(--text-hi);
+    font-family:var(--font-mono);
+    font-size:9.5px;
+    letter-spacing:0.3px;
+    padding:6px 24px 6px 10px;
+    border-radius:999px;
+    cursor:pointer;
+    backdrop-filter:blur(6px);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='6'><path d='M0 0L4 6L8 0Z' fill='%239fb0bb'/></svg>");
+    background-repeat:no-repeat;
+    background-position: right 9px center;
+    transition:all .15s ease;
+  }
+  .map-panel .map-filters select:hover{
+    border-color:var(--panel-border-strong);
+    background-color:rgba(255,255,255,0.10);
+  }
+  [data-theme="light"] .map-panel .map-filters select{
+    background-color:rgba(255,255,255,0.90);
+    color:#0f172a;
+    border-color:rgba(0,0,0,0.08);
   }
 
   #gis-map{
@@ -936,6 +821,7 @@
     .topbar-right{ flex-wrap:wrap; }
     .map-panel{ min-height:300px; }
     #gis-map{ min-height:300px; }
+    .map-panel .map-filters{ flex-direction:column; align-items:flex-end; }
   }
 </style>
 </head>
@@ -949,53 +835,8 @@
 
 <div class="app">
 
-  <!-- ═══ SIDEBAR ═══ -->
-  <div class="sidebar">
-    <div class="sb-brand">
-      <div class="sb-mark"></div>
-      <div>
-        <div class="sb-name"><span>Digital</span> Twin</div>
-        <div class="sb-sub">Operations</div>
-      </div>
-    </div>
-
-    <div class="sb-nav">
-      <span class="sb-section-lbl">Main</span>
-      <a class="sb-item active" href="#">
-        <div class="sb-icon">⊞</div> Dashboard
-      </a>
-      <a class="sb-item" href="#">
-        <div class="sb-icon">🗺</div> GIS Map
-      </a>
-      <a class="sb-item" href="#">
-        <div class="sb-icon">📦</div> Assets
-      </a>
-      <a class="sb-item" href="#">
-        <div class="sb-icon">📡</div> Sensors
-      </a>
-
-      <span class="sb-section-lbl">Analytics</span>
-      <a class="sb-item" href="#">
-        <div class="sb-icon">📊</div> Reports
-      </a>
-      <a class="sb-item" href="#">
-        <div class="sb-icon">🔔</div> Alerts
-      </a>
-      <a class="sb-item" href="#">
-        <div class="sb-icon">⚙️</div> Settings
-      </a>
-    </div>
-
-    <div class="sb-foot">
-      <div class="sb-live">
-        <div class="sb-live-dot"></div>
-        <div>
-          <div class="sb-live-txt">System Online</div>
-          <div class="sb-live-sub">All systems operational</div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- ═══ SIDEBAR (RENDERED BY JS) ═══ -->
+  <div class="sidebar"></div>
 
   <!-- ═══ MAIN ═══ -->
   <div class="main">
@@ -1008,7 +849,7 @@
       </div>
       <div class="topbar-right">
         <button class="top-btn" onclick="toggleTheme()">
-          <span class="icon">🌙</span>
+          <span class="icon">☀️</span>
         </button>
         <button class="top-btn">
           <span class="date-text" id="currentDate"></span>
@@ -1165,11 +1006,35 @@
           <!-- CENTER: MAP PANEL -->
           <div class="col">
             <div class="map-panel">
-             
-           
+
+              <div class="map-corner-label">
+                Live Asset Map
+                <span class="sub">Digital Twin • Real-time</span>
+              </div>
+
+              <!-- ASSET TYPE / STATUS FILTERS -->
+              <div class="map-filters">
+                <select id="filterType" onchange="applyMapFilters()">
+                  <option value="all">All Types</option>
+                </select>
+                <select id="filterStatus" onchange="applyMapFilters()">
+                  <option value="all">All Status</option>
+                  <option value="healthy">Healthy</option>
+                  <option value="warning">Warning</option>
+                  <option value="critical">Critical</option>
+                </select>
+              </div>
 
               <!-- REAL LEAFLET MAP -->
-              <div id="gis-map"></div>
+              <div class="map-wrapper" style="margin: 12px; border-radius: 12px; overflow: hidden; height: calc(100% - 24px);">
+                <div id="gis-map"></div>
+              </div>
+
+              <!-- MAP CONTROLS: Zoom -->
+              <div class="map-toolbar">
+                <div class="tool-btn" onclick="mapZoomIn()" title="Zoom In">+</div>
+                <div class="tool-btn" onclick="mapZoomOut()" title="Zoom Out">−</div>
+              </div>
 
               <!-- MAP LEGEND -->
               <div class="map-legend">
@@ -1290,7 +1155,7 @@
   setInterval(updateDateTime, 1000);
 
   // ─── THEME TOGGLE ───
-  let currentTheme = 'dark';
+  let currentTheme = 'light';
 
   function toggleTheme(){
     if(currentTheme === 'dark'){
@@ -1304,66 +1169,139 @@
     }
   }
 
-  // ─── LEAFLET MAP (GIS) ───
+  // ─── LEAFLET MAP ───
   let mapInstance = null;
   const assetMarkers = {};
+  const connectionLines = [];
+
+  const assets = [
+    { id: 'a1', name: 'Building-A HVAC',      type: 'HVAC',       lat: 22.05, lng: 73.10, status: 'healthy' },
+    { id: 'a2', name: 'Compressor-02',        type: 'Machinery',  lat: 22.44, lng: 71.80, status: 'warning' },
+    { id: 'a3', name: 'Sensor-Node-14',       type: 'Sensor',     lat: 21.50, lng: 73.05, status: 'critical' },
+    { id: 'a4', name: 'Gateway-01',           type: 'Gateway',    lat: 22.75, lng: 72.85, status: 'healthy' },
+    { id: 'a5', name: 'Controller-05',        type: 'Controller', lat: 22.19, lng: 72.63, status: 'healthy' },
+    { id: 'a6', name: 'Substation-Feeder-3',  type: 'Energy',     lat: 22.30, lng: 73.35, status: 'warning' },
+    { id: 'a7', name: 'Transit-Hub-North',    type: 'Transport',  lat: 21.95, lng: 72.45, status: 'healthy' },
+    { id: 'a8', name: 'Sensor-Node-22',       type: 'Sensor',     lat: 22.60, lng: 73.55, status: 'healthy' },
+  ];
+
+  const connections = [
+    ['a1', 'a4'], ['a2', 'a4'], ['a5', 'a4'],
+    ['a3', 'a4'], ['a6', 'a4'], ['a7', 'a4'], ['a8', 'a4'],
+  ];
+
+  function statusColor(status){
+    return status === 'healthy' ? '#06b6d4' : status === 'warning' ? '#f59e0b' : '#ef4444';
+  }
+
+  function markerIcon(status){
+    const color = statusColor(status);
+    return L.divIcon({
+      className: '',
+      html: `<div style="width:10px;height:10px;border-radius:50%;background:${color};border:2px solid rgba(255,255,255,0.6);box-shadow:0 0 12px ${color}66;animation:pulse-marker 2s ease-in-out infinite;"></div>`,
+      iconSize: [10, 10],
+      iconAnchor: [5, 5],
+    });
+  }
+
+  function populateTypeFilter(){
+    const select = document.getElementById('filterType');
+    const types = [...new Set(assets.map(a => a.type))].sort();
+    types.forEach(t => {
+      const opt = document.createElement('option');
+      opt.value = t;
+      opt.textContent = t;
+      select.appendChild(opt);
+    });
+  }
 
   function initMap(){
     const container = document.getElementById('gis-map');
     if(!container || mapInstance) return;
 
     mapInstance = L.map('gis-map', {
-      center: [22.0, 72.5],
-      zoom: 6,
+      center: [22.2, 72.8],
+      zoom: 7,
       zoomControl: false,
       attributionControl: false,
     });
 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-      attribution: '© <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
-      subdomains: 'abcd',
-      maxZoom: 19,
+      subdomains: 'abcd', maxZoom: 19,
     }).addTo(mapInstance);
 
-    // Asset data
-    const assets = [
-      { id: 't1', name: 'AHU-01', lat: 22.05, lng: 73.10, status: 'healthy' },
-      { id: 't2', name: 'COMP-02', lat: 22.44, lng: 71.80, status: 'warning' },
-      { id: 't3', name: 'SENSOR-03', lat: 21.50, lng: 73.05, status: 'critical' },
-      { id: 't4', name: 'GATEWAY-04', lat: 22.75, lng: 72.85, status: 'healthy' },
-      { id: 't5', name: 'CONTROLLER-05', lat: 22.19, lng: 72.63, status: 'healthy' },
-    ];
-
-    assets.forEach(t => {
-      const color = t.status === 'healthy' ? '#06b6d4' : t.status === 'warning' ? '#f59e0b' : '#ef4444';
-      const icon = L.divIcon({
-        className: '',
-        html: `<div style="width:10px;height:10px;border-radius:50%;background:${color};border:2px solid rgba(255,255,255,0.6);box-shadow:0 0 12px ${color}66;animation:pulse-marker 2s ease-in-out infinite;"></div>`,
-        iconSize: [10, 10],
-        iconAnchor: [5, 5],
-      });
-      const marker = L.marker([t.lat, t.lng], { icon })
-        .addTo(mapInstance)
-        .bindPopup(`<strong>${t.name}</strong><br>Status: ${t.status.toUpperCase()}`);
-      assetMarkers[t.id] = marker;
+    connections.forEach(([fromId, toId]) => {
+      const from = assets.find(a => a.id === fromId);
+      const to = assets.find(a => a.id === toId);
+      if(!from || !to) return;
+      const line = L.polyline([[from.lat, from.lng], [to.lat, to.lng]], {
+        color: '#06b6d4',
+        weight: 1.2,
+        opacity: 0.35,
+        dashArray: '4 5',
+      }).addTo(mapInstance);
+      connectionLines.push({ line, fromId, toId });
     });
 
+    assets.forEach(t => {
+      const marker = L.marker([t.lat, t.lng], { icon: markerIcon(t.status) })
+        .addTo(mapInstance)
+        .bindPopup(`<strong>${t.name}</strong><br>Type: ${t.type}<br>Status: ${t.status.toUpperCase()}`);
+      assetMarkers[t.id] = { marker, data: t };
+    });
+
+    populateTypeFilter();
     setTimeout(() => mapInstance.invalidateSize(), 300);
+    setInterval(simulateLiveUpdate, 5000);
   }
+
+  function applyMapFilters(){
+    const typeVal = document.getElementById('filterType').value;
+    const statusVal = document.getElementById('filterStatus').value;
+
+    Object.values(assetMarkers).forEach(({ marker, data }) => {
+      const matches = (typeVal === 'all' || data.type === typeVal) &&
+                       (statusVal === 'all' || data.status === statusVal);
+      if(matches){
+        if(!mapInstance.hasLayer(marker)) marker.addTo(mapInstance);
+      } else {
+        if(mapInstance.hasLayer(marker)) mapInstance.removeLayer(marker);
+      }
+    });
+
+    connectionLines.forEach(({ line, fromId, toId }) => {
+      const fromVisible = mapInstance.hasLayer(assetMarkers[fromId].marker);
+      const toVisible = mapInstance.hasLayer(assetMarkers[toId].marker);
+      if(fromVisible && toVisible){
+        if(!mapInstance.hasLayer(line)) line.addTo(mapInstance);
+      } else {
+        if(mapInstance.hasLayer(line)) mapInstance.removeLayer(line);
+      }
+    });
+  }
+
+  function simulateLiveUpdate(){
+    const ids = Object.keys(assetMarkers);
+    const id = ids[Math.floor(Math.random() * ids.length)];
+    const entry = assetMarkers[id];
+    const statuses = ['healthy', 'healthy', 'healthy', 'warning', 'critical'];
+    const newStatus = statuses[Math.floor(Math.random() * statuses.length)];
+    entry.data.status = newStatus;
+    entry.marker.setIcon(markerIcon(newStatus));
+    entry.marker.setPopupContent(`<strong>${entry.data.name}</strong><br>Type: ${entry.data.type}<br>Status: ${newStatus.toUpperCase()}`);
+    applyMapFilters();
+  }
+
+  function mapZoomIn(){ if(mapInstance) mapInstance.zoomIn(); }
+  function mapZoomOut(){ if(mapInstance) mapInstance.zoomOut(); }
 
   window.addEventListener('load', function() {
     setTimeout(initMap, 100);
   });
-
-  // ─── SIDEBAR INTERACTION ───
-  document.querySelectorAll('.sb-item').forEach(item => {
-    item.addEventListener('click', function(e) {
-      e.preventDefault();
-      document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
-      this.classList.add('active');
-    });
-  });
 </script>
+
+<!-- ═══ SIDEBAR JS ═══ -->
+<script src="sidebar.js"></script>
 
 </body>
 </html>
