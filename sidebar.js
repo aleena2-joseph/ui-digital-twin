@@ -14,7 +14,7 @@ const SIDEBAR_CONFIG = {
     { id: 'google-earth', label: 'Google Earth View', icon: 'globe', path: 'googleEarthView.html' },
     { id: 'digital-twin', label: 'Digital Twin Viewer', icon: 'box', path: '3d_twin.html' },
     { id: 'route-visualization', label: 'Route Visualization', icon: 'route', path: 'route_visualization.html' },
-    { id: 'device-management', label: 'Device Management', icon: 'cpu', path: 'devices.html' },
+    
   ],
   operations: [
     { id: 'alerts', label: 'Alerts', icon: 'bell', path: 'alerts.html', badge: '8' },
